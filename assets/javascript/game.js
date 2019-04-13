@@ -11,8 +11,9 @@
     var alreadyChosenLettersID = document.getElementById("chosen-letters");
     var winsTextID = document.getElementById("wins-text");
     var lossesTextID = document.getElementById("losses-text");
+    var mainImageID = document.getElementById("main-image");
 
-    var wordList = [ "variable", "computer", "norad"];
+    var wordList = [ "dinosaur", "jurassic", "genetics", "paleontology", "velociraptor"];
 
     // generate a randon number of the integer flavor
     function getRndInteger(min, max) {
@@ -50,8 +51,14 @@
             wordDisplayID.textContent = "the word is: " + this.displayedWord;
             this.matchedLetterCount = 0;
 
-            // now that game has started erase old directions and replace with new directions
+            // now that game has started or restarted erase old directions and replace 
+            // with the game directions, put in normal-play color, and put the JP logo poster up
             directionsTextID.textContent = "Your word is " + this.lengthOfWord + " letters long. Please choose a letter";
+            directionsTextID.className = "play-color";
+            
+            mainImageID.className = "gates-image";
+            mainImageID.src = "assets/images/JPGates.jpg";
+
 
             // display numberOfChoices remaining to user
             this.numberOfChoices = this.lengthOfWord * 2;
@@ -72,7 +79,9 @@
             // verify that char chosen is a letter
             var regex = /^[a-z]+$/
             if (letter.match(regex) === null) {
-                alert(letter + " is invalid. Try again");
+                var audio = new Audio('assets/sounds/iHateComputers.mp3');
+                alert("The character " + letter + " is invalid. Don't you hate computers?");
+                audio.play();
                 return false;
             }
             return true;
@@ -92,8 +101,10 @@
     // MAIN PROCESS
     // ==============================================================================
     // Captures keyboard input. Depending on the letter pressed it will "call" (execute) different functions.
-      document.onkeyup = function(event) {
+    document.onkeyup = function(event) {
         if (!myGame.isStarted) {
+            var audio = new Audio('assets/sounds/imFairlyAlarmedHere.mp3');
+            audio.play();
             myGame.isStarted = true;
             myGame.setUpGame();
         } else {
@@ -116,6 +127,13 @@
     
                 myGame.numberOfChoices--;
                 numberOfChoicesID.textContent = "You have " + myGame.numberOfChoices + " more choices left";
+
+                if (myGame.numberOfChoices <= 2 && myGame.numberOfChoices > 0) {
+                    console.log( "only " + myGame.numberOfChoices + " choices left. Don't you hate computers?");
+                    alert("only " + myGame.numberOfChoices + " choices left. Don't you hate computers?");
+                    var audio = new Audio('assets/sounds/iHateComputers.mp3');
+                    audio.play();
+                }            
             }
             //
             // if letter matches in word-choice 
@@ -143,8 +161,14 @@
             if (myGame.matchedLetterCount >= myGame.lengthOfWord) {
                 myGame.wins++;
                 winsTextID.textContent = "Number of wins: " + myGame.wins;
-                // reset all the vars, etc.. to begin again
-                myGame.setUpGame();
+                // WE WON! tell the world
+                directionsTextID.textContent = "You've won! Press any letter to continue.";
+                directionsTextID.className = "win-color";
+                var audio = new Audio('assets/sounds/iveDecidedNotTo.mp3');
+                audio.play();
+                mainImageID.className = "poster-image";
+                mainImageID.src = "assets/images/JurrasicParkLayou.jpg";
+                myGame.isStarted = false;
             } else if (myGame.numberOfChoices === 0) {
                 // else
                 //    if (number-of-choices is zero) 
@@ -152,7 +176,14 @@
                 //        update loss id, 
                 myGame.losses++;
                 lossesTextID.textContent = "Number of loses: " + myGame.losses;
-                myGame.setUpGame();
+                directionsTextID.textContent = "You've been eaten by a dinosaur. Press any letter to continue.";
+                directionsTextID.className = "loss-color";
+                var audio = new Audio('assets/sounds/tRexGrowls.mp3');
+                audio.play();
+                mainImageID.src = "assets/images/tyrannosaurus-rex-isolated-white.jpg";
+                myGame.isStarted = false;
+
+    
             }
         }
       };

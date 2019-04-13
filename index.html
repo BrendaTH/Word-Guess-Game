@@ -7,11 +7,11 @@
     <link rel = "stylesheet" type = "text/css" href = "assets/css/style.css" />
   </head>
   <body>
-
-    <h1>Word Guess Game</h1>
+    <h1>Jurassic Park Guessing Game</h1>
+    <img src="assets/images/JPGates.jpg" id="main-image" class="gates-image" alt="Jurassic Park Poster">
 
     <div>
-            <p id="directions-text">Press any key to start playing!</p>
+            <p id="directions-text" class="play-color">Press any letter to start playing!</p>
             <p id="word-display-text"></p>
             <p id="remaining-choices-count"></p>
             <p id="chosen-letters"></p>
@@ -19,8 +19,16 @@
             <p id="losses-text"></p>
     </div>
 
+    <!-- <iframe src="assets/sounds/500-milliseconds-of-silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe> -->
+    <iframe src="assets/sounds/WelcomeToJurassicPark.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
+  <!--  bjt
+    <audio autoplay>
+        <source src="assets/sounds/WelcomeToJurassicPark.mp3" type="audio/mpeg" loop>
+      Your browser does not support the audio element.
+    </audio>
+    -->
     <!--  load javascript here -->
-      <script type="text/javascript" src="assets/javascript/game.js"></script>
+    <script type="text/javascript" src="assets/javascript/game.js"></script>
 
   </body>
 </html>
